@@ -10,15 +10,25 @@ function App() {
   let [글제목, 글제목변경] = useState(['JSX 문법에 대하여', '리액트 state 변경하기', 'build & Github Pages']);
   let [좋아요, 좋아요변경] = useState(0);
   let [modal, setModal] = useState(false);
-
-  [1,2,3].map(function(){
-    console.log(1)
-  })
+  let [title, setTitle] = useState(0);
 
   return (
     <div className="App">
       <div className="black-nav">
         <h4>React Blog</h4>
+      </div>
+
+      
+      <div>
+        { 
+          글제목.map(function(a, i){
+            return (
+            <div className="list">
+              <h4 onClick={()=>{ setModal(true); setTitle(i); }}>{ 글제목[i] }</h4>
+              <p>2월 17일 발행</p>
+            </div> )
+          }) 
+        }
       </div>
 
       {/*
@@ -123,39 +133,23 @@ function App() {
         }) 
       } */}
 
-    {
-      글제목.map(function(a,i){
-        return (
-          <div className="list" key={i}>
-            <h4 onClick={()=>{setModal(true)}}>{ 글제목[i] }
-            <span onClick={()=>{ 좋아요변경(좋아요+1)}} > 🩵</span> {좋아요}
-            </h4>
-            <p>3월 10일 발행</p>
-          </div>
-        )
-      })
-    }
-
       {
-        modal == true ? <Modal 글제목={글제목} 글제목변경={글제목변경}/> : null
+        modal == true ? <Modal 글제목={글제목}/> : null
       }
 
     </div>
   );
 }
 
-// 동적 UI 만드는 방법
-// 1. html/css 미리 디자인
-// 2. 현재 UI 상태를 state로 만들어두고
-// 3. state 종류에 따라 UI가 어떻게 보일지 작성
-
+// state가 Modal, App에서 필요하면 App에 만들 것. 흐름이 위에서 아래
 function Modal(props){
+  let [title, setTitle] = useState(0);
   return (
     <div className="modal">
-    <h4>{props.글제목[0]}</h4>
-    <p>날짜</p>
-    <p>상세내용</p>
-    <button>글수정</button>
+      <h4>{ props.글제목[title] }</h4>
+      <p>날짜</p>
+      <p>상세내용</p>
+      <button>글수정</button>
     </div>
   )
 }
